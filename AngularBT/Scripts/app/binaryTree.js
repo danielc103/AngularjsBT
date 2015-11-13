@@ -71,38 +71,64 @@
         };
 
 
-        //minimum value for node on tree
-        //if orginized correctly just find left most node and return
-        $scope.minValue = function(node) {
+        //boolean find the value in tree
+        $scope.findValue = function(val, node) {
+
+            //set current node
+            var currentNode = this.root;
+
+            //if empty return false
             if (node == null)
-                return 0;
+                return false;
 
-            if (node.left) {
-                return minValue(node.left);
-            }
-            return node.value;
-
-        };
-
-
-        //maximum value for node on tree
-        //if originzied correctly just find the right most node and return
-        $scope.maxValue = function(node) {
-                if (node == null)
-                    return 0;
-
-                if (node.right) {
-                    return minValue(node.right);
+            //recursive in order search (left)
+            if (val < currentNode.value) {
+                if (currentNode.left) {
+                    return this.findValue(val, currentNode.left);
+                } else {
+                    return false;
                 }
-                return node.value;
+
+                //recursvie in order search (right)
+            } else if (val > currentNode.value) {
+                if (currentNode.right) {
+                    return this.findValue(val, currentNode.right);
+                } else {
+                    return false;
+                }
+                //must be equal to root value 
+            } else {
+                return true;
+            }
+
         };
 
 
-        //bfs
+        //inorder traversal, stores in array
+        $scope.inOrder = function(node) {
 
-        //dfs
+            var array = [];
+            inOrder(node.left);
+            array.push(node.value);
+            inOrder(node.right);
 
-        //need to find ancestors, both ways
+            return array;
+
+        };
+
+        //reverse 
+        $scope.RinOrder = function (node) {
+
+            var array = [];
+            RinOrder(node.right);
+            array.push(node.value);
+            RinOrder(node.left);
+
+            return array;
+
+        };
+
+
 
         //connect to WEB API
     }
