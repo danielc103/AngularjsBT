@@ -1,6 +1,7 @@
 ﻿
 
 (function () {
+    'use strict';
 
     //controller for angularjs
     var myApp = angular.module('myApp', []);
@@ -9,9 +10,9 @@
     //controller fucntion
     function btController($scope, $http) {
    
-        
+       
         //node constructor 
-        $scope.node = function (val) {
+        $scope.treeNode = function (val) {
             this.value = val;
             this.left = null;
             this.right = null;
@@ -23,82 +24,74 @@
         };
 
         //insert function for bt
-        $scope.binaryTree.insert = function (val) {
-
+        $scope.insert = function (val) {
+            
+              
             //declare and set root 
             var root = this.root;
 
             //if there is not a root, now there is
             if (root == null) {
-                this.root = new node(val);
-                return;
+                this.root = new $scope.treeNode(val);
+                return 0;
             }
 
             //our current node and the insert node
             var currentNode = root;
-            var insertNode = new node(val);
+            var insertNode = new $scope.treeNode(val);
 
+            
             //while loop for inserting node
             //while the current node isn't null
             while (currentNode) {
 
                 //if the current node value is greater than the value being inserted, store in left child
                 if (currentNode.value > val) {
-
-                    if (currentNode.value == null) {
+                    if (currentNode.left == null) {
                         currentNode.left = insertNode;
-                        return;
+                        console.log($scope.printValues());
+                        return 1;
                     } else {
                         currentNode = currentNode.left;
                     }
                     //else store in right child
-                } 
+                }
 
                 else if (currentNode.value < val) {
-
                     if (currentNode.right == null) {
                         currentNode.right = insertNode;
-                        return;
+                        console.log($scope.printValues());
+                        return 1;
                     } else {
                         currentNode = currentNode.right;
                     }
-               } else {
-                    //it was found in the tree
+                } else {
+                    return console.log('its in the tree');
                 }
             }
-
 
         };
 
 
         //boolean find the value in tree
-        $scope.findValue = function(val, node) {
-
+        $scope.findValue = function(val, currentNode) {
+          
             //set current node
-            var currentNode = this.root;
-
+          // $scope.currentNode = this.root;
+            if (currentNode === void 0) currentNode = this.root;
             //if empty return false
-            if (node == null)
+            if (val == null) {
+                console.log('false null');
                 return false;
+            }
 
-            //recursive in order search (left)
+            if (val === currentNode.value) return true;
             if (val < currentNode.value) {
-                if (currentNode.left) {
-                    return this.findValue(val, currentNode.left);
-                } else {
-                    return false;
-                }
-
-                //recursvie in order search (right)
-            } else if (val > currentNode.value) {
-                if (currentNode.right) {
-                    return this.findValue(val, currentNode.right);
-                } else {
-                    return false;
-                }
-                //must be equal to root value 
+                console.log('true');
+                return currentNode.left ? this.findValue(val, currentNode.left) : false;
             } else {
-                return true;
+                console.log('true');
+                return currentNode.right ? this.findValue(val, currentNode.right) : false;
             }
 
         };
@@ -129,6 +122,14 @@
         };
 
 
+        $scope.printValues = function() {
+            $scope.innerValues = function(node) {
+                return node ? $scope.innerValues(node.left).concat(node.value, $scope.innerValues(node.right)) : [];
+            };
+            return $scope.innerValues(this.root);
+        };
+
+        $scope.bst = $scope.binaryTree();
 
         //connect to WEB API
     }

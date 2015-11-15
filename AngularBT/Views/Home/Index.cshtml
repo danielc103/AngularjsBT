@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="container">
+<div data-ng-controller="btController" class="container">
     <div class="row">
 
         <div class="page-header">
@@ -21,13 +21,13 @@
 
                 <div class="col-lg-4">
                     <div>
-                        <button class="btn btn-primary">Insert Value</button>
-                        <input type="text" id="insertTree" size="5" />
+                        <button class="btn btn-primary" data-ng-click="insert(insertTree)">Insert Value</button>
+                        <input type="text" id="insertTree" ng-model="insertTree" size="5" />
                     </div>
                     <br />
                     <div>
-                        <label>Value Inserted: </label>
-                        <!--div for completed insert value into tree-->
+                        <label for="pValue">Value Inserted: </label>
+                        <p id="pValue"> {{insertTree}}</p>
                     </div>
 
 
@@ -35,13 +35,13 @@
 
                 <div class="col-lg-4">
                     <div>
-                        <button class="btn btn-primary">Find Value</button>
-                        <input type="text" id="findNode" size="5" />
+                        <button class="btn btn-primary" data-ng-click="findValue(findNode)" ng-model="got">Find Value</button>
+                        <input type="text" id="findNode" ng-model="findNode" size="5" />
                     </div>
                     <br />
                     <div>
                         <label>Is it there?: </label>
-                        <!--div for simple yes or no to found value-->
+                        <p id="findValue">{{got}}</p>
                     </div>
 
                 </div>
