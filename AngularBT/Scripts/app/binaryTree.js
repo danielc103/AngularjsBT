@@ -28,45 +28,49 @@
             
               
             //declare and set root 
-            var root = this.root;
-
+           $scope.r = this.root;
+            
             //if there is not a root, now there is
-            if (root == null) {
+            if ($scope.r == null) {
                 this.root = new $scope.treeNode(val);
                 return 0;
             }
 
             //our current node and the insert node
-            var currentNode = root;
-            var insertNode = new $scope.treeNode(val);
+          $scope.currentNode = $scope.r;
+           
+            $scope.insertNode = new $scope.treeNode(val);
 
             
             //while loop for inserting node
             //while the current node isn't null
-            while (currentNode) {
+            while ($scope.currentNode) {
 
                 //if the current node value is greater than the value being inserted, store in left child
-                if (currentNode.value > val) {
-                    if (currentNode.left == null) {
-                        currentNode.left = insertNode;
+                if ($scope.currentNode.value > val) {
+                    if ($scope.currentNode.left == null) {
+                        $scope.currentNode.left = $scope.insertNode;
                         console.log($scope.printValues());
-                        return 1;
+                        console.log($scope.RprintValues());
+                        break;
                     } else {
-                        currentNode = currentNode.left;
+                        $scope.currentNode = $scope.currentNode.left;
                     }
                     //else store in right child
                 }
 
-                else if (currentNode.value < val) {
-                    if (currentNode.right == null) {
-                        currentNode.right = insertNode;
+                else if ($scope.currentNode.value < val) {
+                    if ($scope.currentNode.right == null) {
+                        $scope.currentNode.right = $scope.insertNode;
                         console.log($scope.printValues());
-                        return 1;
+                        console.log($scope.RprintValues());
+                       break;
                     } else {
-                        currentNode = currentNode.right;
+                        $scope.currentNode = $scope.currentNode.right;
                     }
                 } else {
-                    return console.log('its in the tree');
+                    console.log('its in the tree');
+                    break;
                 }
             }
 
@@ -74,25 +78,20 @@
 
 
         //boolean find the value in tree
-        $scope.findValue = function(val, currentNode) {
-          
-            //set current node
-          // $scope.currentNode = this.root;
-            if (currentNode === void 0) currentNode = this.root;
-            //if empty return false
-            if (val == null) {
-                console.log('false null');
-                return false;
-            }
+        $scope.findValue = function(val) {
+            $scope.found = false;
+            $scope.current = this.root;
 
-            if (val === currentNode.value) return true;
-            if (val < currentNode.value) {
-                console.log('true');
-                return currentNode.left ? this.findValue(val, currentNode.left) : false;
-            } else {
-                console.log('true');
-                return currentNode.right ? this.findValue(val, currentNode.right) : false;
+            while (!$scope.found && $scope.current) {
+                if (val < $scope.current.value) {
+                    $scope.current = $scope.current.left;
+                }else if (val > $scope.current.value) {
+                    $scope.current = $scope.current.right;
+                } else {
+                    $scope.found = true;
+                }
             }
+            return console.log($scope.found);
 
         };
 
@@ -129,9 +128,34 @@
             return $scope.innerValues(this.root);
         };
 
+        $scope.RprintValues = function () {
+            $scope.innerValues = function (node) {
+                return node ? $scope.innerValues(node.right).concat(node.value, $scope.innerValues(node.left)) : [];
+            };
+            return $scope.innerValues(this.root);
+        };
+
+
         $scope.bst = $scope.binaryTree();
 
+        //get all
+        $http.get('/api/Tree').success(function(data) {
+            $scope.trees = data;
+        }).error(function() {
+            $scope.error = "error loading";
+        });
+
         //connect to WEB API
+        $scope.add = function() {
+            $http.post('/api/Tree', this.newTree).success(function(data) {
+                alert("added");
+                $scope.trees.push(data);
+            }).error(function(data) {
+                $scope.error = "can't add tree";
+            });
+        };
+
+
     }
 
 

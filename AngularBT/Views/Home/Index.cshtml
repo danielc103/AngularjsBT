@@ -87,7 +87,29 @@
             </div>
 
             <div class="panel-body">
-
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" style="width:800px">
+                        <tr>
+                            <th>#</th>
+                            <td>Tree</td>
+                            <th>Searched Ancestors</th>
+                            
+                        </tr>
+                        <tr data-ng-repeat="tree in trees">
+                            <td><strong data-ng-hide="customer.editMode">{{ Tree.Id }}</strong></td>
+                            <td>
+                                <p data-ng-hide="customer.editMode">{{ Tree.TreeData }}</p>
+                                <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.TreeData"/>
+                            </td>
+                            <td>
+                                <p data-ng-hide="customer.editMode">{{ Tree.SearchedAncestors }}</p>
+                                <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.SearchedAncestors" />
+                            </td>
+                          
+                        </tr>
+                    </table>
+                    <hr />
+                </div>
             </div>
         </div>
         <!--END PANEL FOR SAVED TREES-->
