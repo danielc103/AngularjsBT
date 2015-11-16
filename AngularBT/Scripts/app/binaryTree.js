@@ -96,30 +96,6 @@
         };
 
 
-        //inorder traversal, stores in array
-        $scope.inOrder = function(node) {
-
-            var array = [];
-            inOrder(node.left);
-            array.push(node.value);
-            inOrder(node.right);
-
-            return array;
-
-        };
-
-        //reverse 
-        $scope.RinOrder = function (node) {
-
-            var array = [];
-            RinOrder(node.right);
-            array.push(node.value);
-            RinOrder(node.left);
-
-            return array;
-
-        };
-
 
         $scope.printValues = function() {
             $scope.innerValues = function(node) {
