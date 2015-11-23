@@ -35,6 +35,8 @@
             //if there is not a root, now there is
             if ($scope.r == null) {
                 this.root = new $scope.treeNode(val);
+                $scope.inserted = true;
+                $scope.add();
                 return 0;
             }
 

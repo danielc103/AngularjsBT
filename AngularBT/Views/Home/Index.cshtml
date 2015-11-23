@@ -9,9 +9,8 @@
             <h1>angularjs binary search tree!</h1>
         </div>
 
-        <button class="btn btn-primary" >branch number</button>
-        <input type="text" id="treeID" data-ng-model="newTree.Id"   size="5"/>
-        <p>must be a unique value</p>
+       
+      
         <!--PANEL FOR INSERT AND FIND VALUE-->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -77,9 +76,7 @@
                 
                 <label>Reverse In Order Traversal</label>
                 <p id="RinOrder">{{RprintValues()}}</p>
-                <div class="text-center">
-                    <button class="btn btn-primary" data-ng-click="add()">Save Tree</button>
-                </div>
+                
 
             </div>
         </div>
@@ -96,9 +93,9 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" style="width:800px">
                         <tr>
-                            <th>#</th>
-                            <td>Tree</td>
-                            <th>Searched Ancestors</th>
+                            <th>Order of Entered Nodes</th>
+                            <th>Node Value</th>
+                           
                             
                         </tr>
                         <tr data-ng-repeat="tree in trees">
@@ -106,10 +103,6 @@
                             <td>
                                 <p data-ng-hide="customer.editMode">{{ tree.TreeData }}</p>
                                 <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.TreeData"/>
-                            </td>
-                            <td>
-                                <p data-ng-hide="customer.editMode">{{ tree.SearchedAncestors }}</p>
-                                <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.SearchedAncestors" />
                             </td>
                           
                         </tr>

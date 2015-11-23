@@ -16,6 +16,5 @@ namespace AngularBT
     {
         public int Id { get; set; }
         public string TreeData { get; set; }
-        public string SearchedAncestors { get; set; }
     }
 }
