@@ -28,7 +28,9 @@
             
               
             //declare and set root 
-           $scope.r = this.root;
+            $scope.r = this.root;
+
+            
             
             //if there is not a root, now there is
             if ($scope.r == null) {
@@ -40,16 +42,18 @@
           $scope.currentNode = $scope.r;
            
             $scope.insertNode = new $scope.treeNode(val);
-
+            $scope.inserted = false;
             
             //while loop for inserting node
             //while the current node isn't null
             while ($scope.currentNode) {
 
                 //if the current node value is greater than the value being inserted, store in left child
-                if ($scope.currentNode.value > val) {
+                if ($scope.currentNode.value > Number(val)) {
                     if ($scope.currentNode.left == null) {
                         $scope.currentNode.left = $scope.insertNode;
+                        $scope.inserted = true;
+                        $scope.add();
                         console.log($scope.printValues());
                         console.log($scope.RprintValues());
                         break;
@@ -59,9 +63,11 @@
                     //else store in right child
                 }
 
-                else if ($scope.currentNode.value < val) {
+                else if ($scope.currentNode.value < Number(val)) {
                     if ($scope.currentNode.right == null) {
                         $scope.currentNode.right = $scope.insertNode;
+                        $scope.inserted = true;
+                        $scope.add();
                         console.log($scope.printValues());
                         console.log($scope.RprintValues());
                        break;
@@ -69,6 +75,7 @@
                         $scope.currentNode = $scope.currentNode.right;
                     }
                 } else {
+                    $scope.inserted = false;
                     console.log('its in the tree');
                     break;
                 }
@@ -83,9 +90,9 @@
             $scope.current = this.root;
 
             while (!$scope.found && $scope.current) {
-                if (val < $scope.current.value) {
+                if (Number(val) < $scope.current.value) {
                     $scope.current = $scope.current.left;
-                }else if (val > $scope.current.value) {
+                }else if (Number(val) > $scope.current.value) {
                     $scope.current = $scope.current.right;
                 } else {
                     $scope.found = true;
@@ -101,6 +108,7 @@
             $scope.innerValues = function(node) {
                 return node ? $scope.innerValues(node.left).concat(node.value, $scope.innerValues(node.right)) : [];
             };
+           
             return $scope.innerValues(this.root);
         };
 
@@ -112,10 +120,31 @@
         };
 
 
+        $scope.ancestors = function (val) {
+
+            $scope.found = false;
+            $scope.current = this.root;
+
+            while (!$scope.found && $scope.current) {
+                if (Number(val) < $scope.current.value) {
+                    $scope.current = $scope.current.left;
+                } else if (Number(val) > $scope.current.value) {
+                    $scope.current = $scope.current.right;
+                } else {
+                    $scope.found = true;
+                }
+            }
+           
+
+        };
+
+
         $scope.bst = $scope.binaryTree();
+        //$scope.newTree = JSON.stringify($scope.bst);
+        
 
         //get all
-        $http.get('/api/Tree').success(function(data) {
+        $http.get('/api/bt/').success(function(data) {
             $scope.trees = data;
         }).error(function() {
             $scope.error = "error loading";
@@ -123,7 +152,7 @@
 
         //connect to WEB API
         $scope.add = function() {
-            $http.post('/api/Tree', this.newTree).success(function(data) {
+            $http.post('/api/bt/', this.newTree).success(function(data) {
                 alert("added");
                 $scope.trees.push(data);
             }).error(function(data) {

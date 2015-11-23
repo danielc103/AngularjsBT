@@ -9,7 +9,9 @@
             <h1>angularjs binary search tree!</h1>
         </div>
 
-
+        <button class="btn btn-primary" >branch number</button>
+        <input type="text" id="treeID" data-ng-model="newTree.Id"   size="5"/>
+        <p>must be a unique value</p>
         <!--PANEL FOR INSERT AND FIND VALUE-->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -21,13 +23,13 @@
 
                 <div class="col-lg-4">
                     <div>
-                        <button class="btn btn-primary" data-ng-click="insert(insertTree)">Insert Value</button>
-                        <input type="text" id="insertTree" ng-model="insertTree" size="5" />
+                        <button class="btn btn-primary" data-ng-click="insert(newTree.TreeData)" ng-model="newTree.TreeData">Insert Value</button>
+                        <input type="text" id="insertTree" data-ng-model="newTree.TreeData" size="5" />
                     </div>
                     <br />
                     <div>
                         <label for="pValue">Value Inserted: </label>
-                        <p id="pValue"> {{insertTree}}</p>
+                        <p id="pValue"> {{inserted}}</p>
                     </div>
 
 
@@ -41,15 +43,15 @@
                     <br />
                     <div>
                         <label>Is it there?: </label>
-                        <p id="findValue">{{got}}</p>
+                        <p id="findValue">{{found}}</p>
                     </div>
 
                 </div>
 
                 <div class="col-lg-4">
                     <div>
-                        <button class="btn btn-primary">Find Ancestors</button>
-                        <input type="text" id="ancestorsTree" size="5" />
+                        <button class="btn btn-primary" data-ng-click="ancestors(aNode)">Find Ancestors</button>
+                        <input type="text" id="aNode" ng-model="aNode" size="5" />
                     </div>
                     <br />
                     <div>
@@ -70,9 +72,13 @@
             </div>
 
             <div class="panel-body">
-
+                <label>In Order Traversal</label>
+                <p id="inOrder">{{printValues()}}</p>
+                
+                <label>Reverse In Order Traversal</label>
+                <p id="RinOrder">{{RprintValues()}}</p>
                 <div class="text-center">
-                    <button class="btn btn-primary">Traverse Tree</button>
+                    <button class="btn btn-primary" data-ng-click="add()">Save Tree</button>
                 </div>
 
             </div>
@@ -96,13 +102,13 @@
                             
                         </tr>
                         <tr data-ng-repeat="tree in trees">
-                            <td><strong data-ng-hide="customer.editMode">{{ Tree.Id }}</strong></td>
+                            <td><strong data-ng-hide="customer.editMode">{{ tree.Id }}</strong></td>
                             <td>
-                                <p data-ng-hide="customer.editMode">{{ Tree.TreeData }}</p>
+                                <p data-ng-hide="customer.editMode">{{ tree.TreeData }}</p>
                                 <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.TreeData"/>
                             </td>
                             <td>
-                                <p data-ng-hide="customer.editMode">{{ Tree.SearchedAncestors }}</p>
+                                <p data-ng-hide="customer.editMode">{{ tree.SearchedAncestors }}</p>
                                 <input data-ng-show="customer.editMode" type="text" data-ng-model="Tree.SearchedAncestors" />
                             </td>
                           
